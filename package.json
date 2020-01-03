@@ -4,6 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"start": "node server/index.js",
 		"test": "jest",
 		"dev:server": "NODE_ENV=development nodemon ./server/index.js",
 		"dev:client": "NODE_ENV=development cd client && npm start",
