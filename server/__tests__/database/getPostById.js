@@ -1,0 +1,22 @@
+const { getPostById } = require('../../db/queries');
+const initDatabase = require('../../db/config/build');
+const connection = require('../../db/config/connection');
+
+describe('get post by id', () => {
+	beforeAll(() => {
+		return initDatabase();
+	});
+	afterAll(() => {
+		return connection.end();
+	});
+
+	test('get post by id', () => {
+		expect.assertions(2);
+		const id = 1;
+		return getPostById(id).then(data => {
+			console.log(data);
+			expect(data.rows[0]).toBeDefined();
+			expect(data.rows[0].id).toBe(id);
+		});
+	});
+});
