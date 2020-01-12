@@ -1,3 +1,5 @@
-module.exports = (req, res) => {
-	res.json('hi from controllers');
+const signup = require('./signup');
+
+module.exports = {
+	signup,
 };
