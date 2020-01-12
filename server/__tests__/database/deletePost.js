@@ -14,7 +14,6 @@ describe('delete user query', () => {
 		expect.assertions(1);
 		const postId = 1;
 		return deletePost(postId).then(data => {
-			console.log(data.rows[0]);
 			expect(data.rows[0].id).toBe(postId);
 		});
 	});

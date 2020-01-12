@@ -14,7 +14,6 @@ describe('get post by id', () => {
 		expect.assertions(2);
 		const id = 1;
 		return getPostById(id).then(data => {
-			console.log(data);
 			expect(data.rows[0]).toBeDefined();
 			expect(data.rows[0].id).toBe(id);
 		});
