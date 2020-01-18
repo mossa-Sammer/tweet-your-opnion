@@ -3,8 +3,6 @@ const initDatabase = require('../../db/config/build');
 const connection = require('../../db/config/connection');
 const app = require('../../app');
 
-const { signup } = require('../../controllers');
-
 describe('test the signup route', () => {
 	beforeAll(() => {
 		return initDatabase();
@@ -15,7 +13,6 @@ describe('test the signup route', () => {
 	});
 
 	test('test the signup route with valid data', done => {
-		// expect.assertions(2);
 		const userData = {
 			firstName: 'mossa',
 			lastName: 'dbabesh',
@@ -34,6 +31,7 @@ describe('test the signup route', () => {
 				return done();
 			});
 	});
+
 	test('test with invalid data', done => {
 		const userData = {
 			firstName: 'mos',
@@ -43,6 +41,7 @@ describe('test the signup route', () => {
 			password: 'mossa123',
 			confirmPassword: 'mossa123',
 		};
+
 		supertest(app)
 			.post('/api/v1/signup')
 			.send(userData)
@@ -53,6 +52,7 @@ describe('test the signup route', () => {
 				done();
 			});
 	});
+
 	test('test with unneccssary data in the body', done => {
 		const userData = {
 			firstName: 'mos',
@@ -63,6 +63,7 @@ describe('test the signup route', () => {
 			confirmPassword: 'mossa123',
 			fakething: 'dsfsdfsd',
 		};
+
 		supertest(app)
 			.post('/api/v1/signup')
 			.send(userData)
@@ -83,6 +84,7 @@ describe('test the signup route', () => {
 			password: 'mossa123',
 			confirmPassword: 'mossa123',
 		};
+
 		supertest(app)
 			.post('/api/v1/signup')
 			.send(userData)
@@ -90,7 +92,6 @@ describe('test the signup route', () => {
 			.expect('Content-Type', /json/)
 			.end((err, res) => {
 				if (err) return done(err);
-				console.log(res.body);
 				done();
 			});
 	});

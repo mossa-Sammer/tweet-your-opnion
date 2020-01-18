@@ -1,11 +1,8 @@
 const connection = require('../config/connection');
 
-// user id , content
-const addComment = commentData => {
+module.exports = ({ postId, userId, content }) => {
 	return connection.query(
 		'INSERT INTO comments (post_id, user_id, content) VALUES ($1, $2, $3) returning *',
-		commentData,
+		[postId, userId, content],
 	);
 };
-
-module.exports = addComment;

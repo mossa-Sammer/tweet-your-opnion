@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 
 const { signupSchema } = require('./validation');
 const { addUser } = require('../db/queries');
+const { generateToken } = require('./utils');
 
 // firstName,
 // lastName,
@@ -12,41 +13,49 @@ const { addUser } = require('../db/queries');
 module.exports = (req, res, next) => {
 	const { body: userData } = req;
 
-	if (Object.keys(userData).length !== 6)
-		return res.status(400).json({
-			message: 'bad request',
-		});
+	if (Object.keys(userData).length !== 6) {
+		const err = new Error('bad request');
+		err.statusCode = 400;
+		return next(err);
+	}
 
 	signupSchema
 		.validate(userData)
-		.then(() => {
-			return bcrypt.hash(userData.password, 10);
-		})
+		.then(() => bcrypt.hash(userData.password, 10))
 		.then(hashed => {
 			userData.password = hashed;
-			// destructure to insure the order and insert withou image url
+			// destructure to insure the order and insert without image url
 			const { firstName, lastName, email, password, age } = userData;
-			return addUser([firstName, lastName, email, password, null, age]);
+			return Promise.all([
+				addUser([firstName, lastName, email, password, null, age]),
+				generateToken(userData.email),
+			]);
 		})
-		.then(data => {
-			console.log(data.rows[0]);
+		.then(([data, token]) => {
+			res.cookie('token', token);
 			res.json({
 				message: 'user created successfully',
 				data: data.rows[0],
 			});
 		})
-		.catch(err => {
-			if (err.name === 'ValidationError') {
-				res.status(400).json({
-					message: err.name,
-					errors: err.errors,
-				});
-			} else if (err.code === '23505') {
-				res.status(400).json({
-					message: err.detail,
-				});
+		.catch(error => {
+			if (error.name === 'ValidationError') {
+				const err = new Error(error.name);
+				err.statusCode = 400;
+				err.data = err.errors;
+				return next(err);
+			} else if (error.code === '23505') {
+				// console.log(error);
+				for ([key, value] of Object.entries(error)) {
+					console.log(key, value);
+				}
+				const err = new Error('duplicate key');
+				err.statusCode = 400;
+				err.data = error.constraint;
+				console.log(err);
+				return next(err);
 			} else {
-				next(err);
+				return next(err);
 			}
 		});
 };

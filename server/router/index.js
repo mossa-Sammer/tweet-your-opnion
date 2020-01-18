@@ -1,10 +1,13 @@
 const Router = require('express').Router();
 
-const signup = require('../controllers/signup');
+const { signup, login, getUserPosts } = require('../controllers');
+const { authorizeUser } = require('../middlewares');
+const { errorHandler } = require('../controllers');
 
 Router.post('/signup', signup);
-Router.use((req, res) => {
-	res.json('hello world from router');
-});
+Router.post('/login', login);
+Router.use(authorizeUser);
+Router.get('/getUserPosts', getUserPosts);
+Router.use(errorHandler);
 
 module.exports = Router;

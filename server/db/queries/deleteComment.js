@@ -1,7 +1,9 @@
 const connection = require('../config/connection');
 
-const deleteComment = id => {
-	return connection.query('DELETE FROM comments WHERE id=$1 returning *', [id]);
+module.exports = ({ id }) => {
+	return connection
+		.query('DELETE FROM comment_likes WHERE comment_id=$1', [id])
+		.then(() =>
+			connection.query('DELETE FROM comments WHERE id=$1 returning *', [id]),
+		);
 };
-
-module.exports = deleteComment;

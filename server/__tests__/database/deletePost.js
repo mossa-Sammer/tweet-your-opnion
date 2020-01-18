@@ -12,9 +12,11 @@ describe('delete user query', () => {
 
 	test('delete post by id', () => {
 		expect.assertions(1);
-		const postId = 1;
-		return deletePost(postId).then(data => {
-			expect(data.rows[0].id).toBe(postId);
+		const input = {
+			id: 1,
+		};
+		return deletePost(input).then(data => {
+			expect(data.rows[0].id).toBe(input.id);
 		});
 	});
 });

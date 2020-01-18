@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS users, posts, comments CASCADE;
+DROP TABLE IF EXISTS users, posts, post_likes, comments, comment_likes CASCADE;
 
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
@@ -15,16 +15,25 @@ CREATE TABLE users(
 CREATE TABLE posts(
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),
-  content TEXT NOT NULL,
-  likes JSON[] --userid
+  content VARCHAR NOT NULL
+);
+
+CREATE TABLE post_likes(
+  user_id INTEGER REFERENCES users(id),
+  post_id INTEGER REFERENCES posts(id)
 );
 
 CREATE TABLE comments(
   id SERIAL PRIMARY KEY,
   post_id INTEGER REFERENCES posts(id),
   user_id INTEGER REFERENCES users(id),
-  content TEXT NOT NULL,
-  likes JSON[] --userid
+  content VARCHAR NOT NULL
+);
+
+CREATE TABLE comment_likes(
+  user_id INTEGER REFERENCES users(id),
+  post_id INTEGER REFERENCES posts(id),
+  comment_id INTEGER REFERENCES comments(id)
 );
 
 COMMIT;
