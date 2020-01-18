@@ -14,7 +14,7 @@ describe('test the add user query', () => {
 		expect.assertions(1);
 		const userId = 1;
 		return getUserPosts(userId).then(data => {
-			expect(data.rows).toBeDefined();
+			expect(data.rows[0]).toBeDefined();
 		});
 	});
 });

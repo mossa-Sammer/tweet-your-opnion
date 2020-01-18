@@ -11,15 +11,14 @@ describe('testin add commnet query', () => {
 	});
 
 	test('add comment query', () => {
-		expect.assertions(2);
+		expect.assertions(1);
 		const commentData = {
 			postId: '1',
-			userid: '1',
+			userId: '1',
 			content: 'hey, fist comment',
 		};
 
-		return addComment(Object.values(commentData)).then(data => {
-			expect(data.rows[0]).toBeDefined();
+		return addComment(commentData).then(data => {
 			expect(data.rows[0].post_id).toBe(1);
 		});
 	});

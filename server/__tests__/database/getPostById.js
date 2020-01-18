@@ -12,10 +12,12 @@ describe('get post by id', () => {
 
 	test('get post by id', () => {
 		expect.assertions(2);
-		const id = 1;
-		return getPostById(id).then(data => {
+		const input = {
+			id: 1,
+		};
+		return getPostById(input).then(data => {
 			expect(data.rows[0]).toBeDefined();
-			expect(data.rows[0].id).toBe(id);
+			expect(data.rows[0].id).toBe(input.id);
 		});
 	});
 });

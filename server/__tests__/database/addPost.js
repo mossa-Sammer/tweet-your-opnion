@@ -12,14 +12,14 @@ describe('test add post query', () => {
 
 	test('test add post query', () => {
 		expect.assertions(2);
-		const content = {
+		const input = {
 			userId: 1,
-			text: 'waw, first post and hello world',
+			content: 'waw, first post and hello world',
 		};
 
-		return addPost(Object.values(content)).then(data => {
+		return addPost(input).then(data => {
 			expect(data.rows[0]).toBeDefined();
-			expect(data.rows[0].content).toBe(content.text);
+			expect(data.rows[0].content).toBe(input.content);
 		});
 	});
 });

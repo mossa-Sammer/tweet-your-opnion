@@ -12,13 +12,9 @@ describe('test the add user query', () => {
 
 	test('testing the get All Users function', () => {
 		expect.assertions(2);
-		return getUsers()
-			.then(data => {
-				expect(data.rows).toBeDefined();
-				expect(data.rows[0]).toBeDefined();
-			})
-			.catch(err => {
-				console.log(err.stack);
-			});
+		return getUsers().then(data => {
+			expect(data.rows).toBeDefined();
+			expect(data.rows[0]).toBeDefined();
+		});
 	});
 });

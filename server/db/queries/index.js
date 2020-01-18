@@ -8,6 +8,14 @@ const getPostById = require('./getPostById');
 const getUserPosts = require('./getUserPosts');
 const deletePost = require('./deletePost');
 const deleteComment = require('./deleteComment');
+const getPostComments = require('./getPostComments');
+const addLikeToPost = require('./addLikeToPost');
+const deleteLikeFromPost = require('./deleteLikeFromPost');
+const addLikeToComment = require('./addLikeToComment');
+const deleteLikeFromComment = require('./deleteLikeFromComment');
+const getCommentLikes = require('./getCommentLikes');
+const getUserByEmail = require('./getUserByEmail');
+const getUserById = require('./getUserById');
 
 module.exports = {
 	getUsers,
@@ -20,4 +28,11 @@ module.exports = {
 	getUserPosts,
 	deletePost,
 	deleteComment,
+	getPostComments,
+	addLikeToPost,
+	deleteLikeFromPost,
+	addLikeToComment,
+	deleteLikeFromComment,
+	getCommentLikes,
+	getUserByEmail,
 };

@@ -1,7 +1,5 @@
 const connection = require('../config/connection');
 
-const getUsers = () => {
+module.exports = () => {
 	return connection.query('SELECT * FROM users');
 };
-
-module.exports = getUsers;
