@@ -55,7 +55,7 @@ module.exports = (req, res, next) => {
 				console.log(err);
 				return next(err);
 			} else {
-				return next(err);
+				return next(error);
 			}
 		});
 };
