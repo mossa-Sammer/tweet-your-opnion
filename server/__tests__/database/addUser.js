@@ -20,7 +20,7 @@ describe('test the add user query', () => {
 			image_url: null,
 			age: 30,
 		};
-		return addUser(Object.values(user)).then(data => {
+		return addUser(user).then(data => {
 			expect(data.rows[0]).toBeDefined();
 			expect(data.rows[0].email).toBe(user.email);
 		});
