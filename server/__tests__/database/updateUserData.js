@@ -21,7 +21,7 @@ describe('test the add user query', () => {
 			imageUrl: null,
 			age: 30,
 		};
-		return updateUserData(Object.values(userData)).then(data => {
+		return updateUserData(userData).then(data => {
 			expect(data.rows[0].id).toBe(userData.id);
 			expect(data.rows[0].email).toBe(userData.email);
 		});

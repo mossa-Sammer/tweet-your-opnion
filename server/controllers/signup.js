@@ -24,13 +24,7 @@ module.exports = (req, res, next) => {
 		.then(() => bcrypt.hash(userData.password, 10))
 		.then(hashed => {
 			userData.password = hashed;
-			// destructure to insure the order and insert without image url
-			const { id, firstName, lastName, email, password, age } = userData;
-
-			return Promise.all([
-				addUser([firstName, lastName, email, password, null, age]),
-				generateToken(userData.email),
-			]);
+			return Promise.all([addUser(userData), generateToken(userData.email)]);
 		})
 		.then(([data, token]) => {
 			const { rows } = data;
