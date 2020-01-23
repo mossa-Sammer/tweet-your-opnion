@@ -25,14 +25,17 @@ module.exports = (req, res, next) => {
 		.then(hashed => {
 			userData.password = hashed;
 			// destructure to insure the order and insert without image url
-			const { firstName, lastName, email, password, age } = userData;
+			const { id, firstName, lastName, email, password, age } = userData;
+
 			return Promise.all([
 				addUser([firstName, lastName, email, password, null, age]),
 				generateToken(userData.email),
 			]);
 		})
 		.then(([data, token]) => {
+			const { rows } = data;
 			res.cookie('token', token);
+			res.cookie('id', rows[0].id);
 			res.json({
 				message: 'user created successfully',
 				data: data.rows[0],
@@ -45,14 +48,9 @@ module.exports = (req, res, next) => {
 				err.data = err.errors;
 				return next(err);
 			} else if (error.code === '23505') {
-				// console.log(error);
-				for ([key, value] of Object.entries(error)) {
-					console.log(key, value);
-				}
 				const err = new Error('duplicate key');
 				err.statusCode = 400;
 				err.data = error.constraint;
-				console.log(err);
 				return next(err);
 			} else {
 				return next(error);

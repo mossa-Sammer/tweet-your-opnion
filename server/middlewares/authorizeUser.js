@@ -3,7 +3,6 @@ module.exports = (req, res, next) => {
 	const { token } = req.cookies;
 	verfiyToken(token)
 		.then(verfied => {
-			console.log(verfied);
 			if (verfied) next();
 			else
 				return res.status(403).json({
