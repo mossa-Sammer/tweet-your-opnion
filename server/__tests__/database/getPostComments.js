@@ -11,8 +11,8 @@ describe('get post comments by post id', () => {
 	});
 	test('get post comments', () => {
 		expect.assertions(1);
-		const postId = 1;
-		return getPostComments(postId).then(data => {
+		const input = { id: 1 };
+		return getPostComments(input).then(data => {
 			const { rows } = data;
 			expect(rows[0].content).toBe('waw this is first fake comment');
 		});
