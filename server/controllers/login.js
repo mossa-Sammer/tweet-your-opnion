@@ -28,7 +28,6 @@ module.exports = (req, res, next) => {
 			return compare(userData.password, rows[0].password);
 		})
 		.then(authed => {
-			console.log(authed);
 			if (!authed) {
 				const err = new Error('incorrect password');
 				err.statusCode = 403;
