@@ -14,9 +14,7 @@ module.exports = (req, res, next) => {
 	const { body: userData } = req;
 
 	if (Object.keys(userData).length !== 6) {
-		const err = new Error('bad request');
-		err.statusCode = 400;
-		return next(err);
+		next({ message: 'bad request', statusCode: 400 });
 	}
 
 	signupSchema
@@ -37,17 +35,15 @@ module.exports = (req, res, next) => {
 		})
 		.catch(error => {
 			if (error.name === 'ValidationError') {
-				const err = new Error(error.name);
-				err.statusCode = 400;
-				err.data = err.errors;
-				return next(err);
+				next({ message: error.name, statusCode: 400, data: error.errors });
 			} else if (error.code === '23505') {
-				const err = new Error('duplicate key');
-				err.statusCode = 400;
-				err.data = error.constraint;
-				return next(err);
+				next({
+					message: 'duplicate key',
+					statusCode: 400,
+					data: error.constraint,
+				});
 			} else {
-				return next(error);
+				next(error);
 			}
 		});
 };
