@@ -9,11 +9,8 @@ module.exports = (req, res, next) => {
 	const { body: userData } = req;
 
 	if (Object.keys(userData).length !== 2) {
-		const err = new Error('bad request');
-		err.statusCode = 400;
-		next(err);
+		next({ message: 'bad request', statusCode: 400 });
 	}
-	// return res.status(400).json({ message: 'bad request' });
 
 	loginSchema
 		.validate(userData)
@@ -21,17 +18,13 @@ module.exports = (req, res, next) => {
 		.then(data => {
 			const { rows } = data;
 			if (!rows[0]) {
-				const err = new Error('email not found');
-				err.statusCode = 404;
-				throw err;
+				throw { message: 'email not found', statusCode: 404 };
 			}
 			return compare(userData.password, rows[0].password);
 		})
 		.then(authed => {
-			if (!authed) {
-				const err = new Error('incorrect password');
-				err.statusCode = 403;
-				throw err;
+			if (authed === false) {
+				throw { message: 'incorrect password', statusCode: 403 };
 			}
 			return generateToken(userData.email);
 		})
@@ -42,13 +35,12 @@ module.exports = (req, res, next) => {
 			});
 		})
 		.catch(error => {
-			let err;
 			if (error.name === 'ValidationError') {
-				err = new Error(error.name);
-				err.statusCode = 400;
-				err.data = error.errors;
-				next(err);
-			}
-			next(error);
+				next({
+					message: error.name,
+					statusCode: 400,
+					data: error.errors,
+				});
+			} else next(error);
 		});
 };
