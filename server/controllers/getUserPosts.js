@@ -1,7 +1,7 @@
 const { getUserPosts } = require('../db/queries');
 
 module.exports = (req, res, next) => {
-	const { id } = req.body;
+	const { id } = req.cookies;
 	getUserPosts(id)
 		.then(result => {
 			const { rows } = result;
