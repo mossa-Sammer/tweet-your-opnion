@@ -11,10 +11,11 @@ module.exports = (req, res, next) => {
 		})
 		.catch(error => {
 			if (error.message === 'invalid signature') {
-				const err = new Error(error.message);
-				err.statusCode = 403;
-				err.data = 'token touched!!!!';
-				return next(err);
+				next({
+					message: error.message,
+					statusCode: 403,
+					data: 'token touched!!!',
+				});
 			} else next(error);
 		});
 };
