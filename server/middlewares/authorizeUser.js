@@ -1,14 +1,9 @@
 const { verfiyToken } = require('../controllers/utils');
-module.exports = (req, res, next) => {
+
+module.exports = (req, _res, next) => {
 	const { token } = req.cookies;
 	verfiyToken(token)
-		.then(verfied => {
-			if (verfied) next();
-			else
-				return res.status(403).json({
-					message: 'go home',
-				});
-		})
+		.then(() => next())
 		.catch(error => {
 			if (error.message === 'invalid signature') {
 				next({
