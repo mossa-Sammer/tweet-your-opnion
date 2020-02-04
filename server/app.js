@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV !== 'production') require('dotenv').config();
+require('dotenv').config();
 
 const { join } = require('path');
 const express = require('express');
@@ -14,16 +14,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 if (process.env.NODE_ENV !== 'production') {
-	app.use(logger('dev'));
-	app.use(
-		express.static(join(__dirname, '..', 'client', 'public'), { maxAge: '1d' }),
-	);
+  app.use(logger('dev'));
+  app.use(
+    express.static(join(__dirname, '..', 'client', 'public'), { maxAge: '1d' }),
+  );
 }
 
 app.use('/api/v1', router);
 
 app.get('*', (req, res) => {
-	res.sendFile(join(__dirname, '..', 'client', 'public', 'index.html'));
+  res.sendFile(join(__dirname, '..', 'client', 'public', 'index.html'));
 });
 
 module.exports = app;
