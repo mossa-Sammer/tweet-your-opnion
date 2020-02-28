@@ -14,16 +14,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 if (process.env.NODE_ENV !== 'production') {
-	app.use(logger('dev'));
-	app.use(
-		express.static(join(__dirname, '..', 'client', 'public'), { maxAge: '1d' }),
-	);
+  app.use(logger('dev'));
+  app.use(
+    express.static(join(__dirname, '..', 'client', 'public'), { maxAge: '1d' }),
+  );
 }
 
 app.use('/api/v1', router);
 
 app.get('*', (req, res) => {
-	res.sendFile(join(__dirname, '..', 'client', 'public', 'index.html'));
+  res.sendFile(join(__dirname, '..', 'client', 'public', 'index.html'));
 });
 
 module.exports = app;
