@@ -4,8 +4,8 @@ const getUserPosts = require('./getUserPosts');
 const errorHandler = require('./errors');
 
 module.exports = {
-	signup,
-	login,
-	getUserPosts,
-	errorHandler,
+  signup,
+  login,
+  getUserPosts,
+  errorHandler,
 };
